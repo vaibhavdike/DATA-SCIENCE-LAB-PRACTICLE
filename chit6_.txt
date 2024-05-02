@@ -1,0 +1,51 @@
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk import pos_tag
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+from nltk.stem import WordNetLemmatizer
+
+# Step 1: Tokenization
+tokens = word_tokenize(sample_text)  # Split the text into words
+print("Tokens:", tokens)
+
+# Step 2: POS Tagging
+# Assign Part-of-Speech tags to tokens
+pos_tags = pos_tag(tokens)
+print("POS Tags:", pos_tags)
+
+# Step 3: Stop Words Removal
+# Get the list of English stop words
+stop_words = set(stopwords.words("english"))
+# Filter out stop words
+filtered_tokens = [token for token in tokens if token.lower() not in stop_words]
+print("Filtered Tokens:", filtered_tokens)
+
+# Step 4: Stemming
+# Use the Porter Stemmer to stem tokens
+stemmer = PorterStemmer()
+stemmed_tokens = [stemmer.stem(token) for token in filtered_tokens]
+print("Stemmed Tokens:", stemmed_tokens)
+
+# Step 5: Lemmatization
+# Use the WordNet Lemmatizer to lemmatize tokens
+lemmatizer = WordNetLemmatizer()
+lemmatized_tokens = [lemmatizer.lemmatize(token) for token in filtered_tokens]
+print("Lemmatized Tokens:", lemmatized_tokens)
+
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+# Step 6: Create a set of sample documents
+documents = [
+    "Natural Language Processing is an interesting field.",
+    "Machine learning and artificial intelligence are part of it.",
+    "Many applications involve understanding human languages."
+]
+
+# Step 7: Apply TF-IDF
+vectorizer = TfidfVectorizer()  # Initialize the TF-IDF Vectorizer
+tfidf_matrix = vectorizer.fit_transform(documents)  # Calculate TF-IDF
+tfidf_df = pd.DataFrame(tfidf_matrix.toarray(), columns=vectorizer.get_feature_names_out())
+print("TF-IDF Matrix:")
+print(tfidf_df)
